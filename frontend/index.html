@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="YouTube Channel RAG Tool - Extract and chat with video transcripts using AI">
+    <title>YouTube Channel RAG Tool</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- External Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <main class="container">
+
+        <!-- Header Section -->
+        <header class="header">
+            <h1 class="header-title">YouTube Channel RAG Tool</h1>
+            <p class="header-subtitle">Extract and analyze video transcripts from any YouTube channel</p>
+        </header>
+
+        <!-- Input Section -->
+        <section id="inputSection" class="section input-section" aria-label="Channel input form">
+            <div class="card">
+                <form id="channelForm" class="channel-form" novalidate>
+
+                    <div class="form-group">
+                        <label for="channelUrl" class="form-label">
+                            YouTube Channel URL
+                            <span class="required" aria-label="required">*</span>
+                        </label>
+                        <input
+                            type="url"
+                            id="channelUrl"
+                            name="channelUrl"
+                            class="form-input"
+                            placeholder="Enter YouTube channel URL"
+                            required
+                            aria-required="true"
+                            aria-describedby="channelUrlError"
+                        >
+                        <span id="channelUrlError" class="error-message" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="videoCount" class="form-label">
+                            Number of Videos
+                            <span class="required" aria-label="required">*</span>
+                        </label>
+                        <input
+                            type="number"
+                            id="videoCount"
+                            name="videoCount"
+                            class="form-input"
+                            value="20"
+                            min="1"
+                            max="100"
+                            required
+                            aria-required="true"
+                            aria-describedby="videoCountError videoCountHelp"
+                        >
+                        <span id="videoCountHelp" class="help-text">Select between 1 and 100 videos</span>
+                        <span id="videoCountError" class="error-message" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div id="formError" class="error-message form-error" role="alert" aria-live="polite"></div>
+
+                    <button
+                        type="submit"
+                        id="submitButton"
+                        class="btn btn-primary"
+                        aria-label="Start processing channel"
+                    >
+                        Start Processing
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Loading Section -->
+        <section id="loadingSection" class="section loading-section hidden" aria-label="Processing status">
+            <div class="card">
+                <div class="loading-content">
+                    <div class="loading-spinner" aria-hidden="true">
+                        <div class="spinner"></div>
+                    </div>
+
+                    <h2 class="loading-title">Processing Channel</h2>
+
+                    <div class="status-container">
+                        <p id="statusMessage" class="status-message" aria-live="polite" aria-atomic="true">
+                            Initializing...
+                        </p>
+
+                        <div class="progress-info">
+                            <span id="currentStep" class="current-step" aria-live="polite">Step 1 of 3</span>
+                            <span id="progressPercent" class="progress-percent" aria-live="polite">0%</span>
+                        </div>
+
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <div id="detailedStatus" class="detailed-status" aria-live="polite"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat Section -->
+        <section id="chatSection" class="section chat-section hidden" aria-label="Chat interface">
+            <div class="card">
+
+                <!-- Channel Info -->
+                <div class="channel-info">
+                    <h2 id="channelName" class="channel-name">Channel Name</h2>
+                    <p class="channel-meta">
+                        <span id="videoCountDisplay" class="video-count">0 videos processed</span>
+                        <button
+                            id="resetButton"
+                            class="btn btn-secondary btn-small"
+                            aria-label="Reset and process new channel"
+                        >
+                            Process New Channel
+                        </button>
+                    </p>
+                </div>
+
+                <!-- Chat Messages Container -->
+                <div id="chatMessages" class="chat-messages" role="log" aria-label="Chat messages" aria-live="polite">
+                    <div class="welcome-message">
+                        <p class="welcome-text">
+                            Ask questions about the video content from this channel.
+                            The AI will search through all transcripts to provide accurate answers.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Chat Input Form -->
+                <form id="chatForm" class="chat-form">
+                    <div class="chat-input-wrapper">
+                        <label for="chatInput" class="visually-hidden">Enter your question</label>
+                        <input
+                            type="text"
+                            id="chatInput"
+                            name="query"
+                            class="chat-input"
+                            placeholder="Ask a question about the videos..."
+                            required
+                            aria-required="true"
+                            aria-label="Chat message input"
+                        >
+                        <button
+                            type="submit"
+                            id="sendButton"
+                            class="btn btn-primary btn-send"
+                            aria-label="Send message"
+                        >
+                            Send
+                        </button>
+                    </div>
+                    <div id="chatError" class="error-message" role="alert" aria-live="polite"></div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">
+            Powered by Gemini API and Apify
+        </p>
+    </footer>
+
+    <!-- External Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
